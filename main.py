@@ -260,6 +260,9 @@ def convert_to_word_timestamps(text: str,
         'word_end_times': word_end_times
     }
 
+@app.get("/")
+def health():
+    return f"{datetime.now()} --- Working fine"
 
 @app.post("/generate")
 async def generate_endpoint(request: GenerateRequest):
