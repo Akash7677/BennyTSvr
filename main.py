@@ -9,13 +9,28 @@ import json
 from typing import Dict, Any
 from fastapi import FastAPI, Response
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI()
 
-# Configure your API keys
-openai.api_key = "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"
-ELEVENLABS_API_KEY = "sk_d3eb2e527e0bd6b39d109a48ad50b2ce67fec65646fc0d72"
-DEFAULT_VOICE_ID = "chcMmmtY1cmQh2ye1oXi"
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+# Configure API keys from environment variables
+openai.api_key = os.getenv("OPENAI_API_KEY")
+ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
+DEFAULT_VOICE_ID = os.getenv("DEFAULT_VOICE_ID", "542jzeOaLKbcpZhWfJDa")
 
 # Session storage with 10-minute timeout
 sessions = {}
@@ -312,14 +327,15 @@ async def generate_endpoint(request: GenerateRequest):
         )
 
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 #
-# if __name__ == "__main__":
-#     import uvicorn
-#     import threading
-#
-#
-#     # def run_fastapi():
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
-#
+if __name__ == "__main__":
+    import uvicorn
+    import threading
+
+
+    # def run_fastapi():
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
