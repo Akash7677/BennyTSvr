@@ -331,11 +331,11 @@ async def generate_endpoint(request: GenerateRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 #
-if __name__ == "__main__":
-    import uvicorn
-    import threading
+# if __name__ == "__main__":
+#     import uvicorn
+#     import threading
 
 
-    # def run_fastapi():
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+#     # def run_fastapi():
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
 
